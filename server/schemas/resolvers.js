@@ -16,7 +16,7 @@ const resolvers = {
     },
     Mutation: {
         login: async (_, { email, password }) => {
-            const user = await user.findOne({ email });
+            const user = await User.findOne({ email });
 
             if (!user || !user.validatePassword(password)) {
                 throw new AuthenticationError('Invalid credentials');
@@ -25,7 +25,11 @@ const resolvers = {
             const token = signToken(user);
             return { token, user };
         },
-        
+        addUser: async (_, { username, email, password }) => {
+            const user = await User.create({ username, email, password });
+            const token = signToken(user);
+            return { token, user };
+        },
     },
 };
 
