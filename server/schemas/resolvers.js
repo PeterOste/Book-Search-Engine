@@ -1,4 +1,6 @@
+const { AuthenticationError } = require('apollo-server-express');
 const { User, Book } = require('../models');
+// Require auth for token authentication
 
 const resolvers = {
     Query: {
@@ -13,7 +15,17 @@ const resolvers = {
         },
     },
     Mutation: {
+        login: async (_, { email, password }) => {
+            const user = await user.findOne({ email });
 
+            if (!user || !user.validatePassword(password)) {
+                throw new AuthenticationError('Invalid credentials');
+            }
+
+            const token = signToken(user);
+            return { token, user };
+        },
+        
     },
 };
 
