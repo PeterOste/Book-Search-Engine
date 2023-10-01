@@ -30,6 +30,33 @@ const resolvers = {
             const token = signToken(user);
             return { token, user };
         },
+        saveBook: async (_, { input }, context) => {
+            if (!context.user) {
+                throw new AuthenticationError('Not logged in');
+            }
+
+            const book = await Book.create(input);
+            const updatedUser = await User.findByIdAndUpdate(
+                context.user._id,
+                { $push: { savedBooks: book._id } },
+                { new: true }
+            ).populate('savedBooks');
+
+            return updatedUser;
+        },
+        removeBook: async (_, { bookId }, context) => {
+            if (!context.user) {
+                throw new AuthenticationError('Not logged in');
+            }
+
+            const updatedUser = await User.findByIdAndUpdate(
+                context.user._id,
+                { $pull: { savedBooks: bookId } },
+                { new: true }
+            ).populate('savedBooks');
+        
+            return updatedUser;
+        },
     },
 };
 
