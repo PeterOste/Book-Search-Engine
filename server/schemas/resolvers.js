@@ -1,6 +1,6 @@
 const { AuthenticationError } = require('apollo-server-express');
 const { User, Book } = require('../models');
-// Require auth for token authentication
+// Require auth for token authentication?
 
 const resolvers = {
     Query: {
