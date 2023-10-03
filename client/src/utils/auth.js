@@ -44,6 +44,15 @@ class AuthService {
     // this will reload the page and reset the state of the application
     window.location.assign('/');
   }
+
+  static getInstance() {
+    if (!this.instance) {
+      this.instance = new AuthService();
+    }
+    return this.instance;
+  }
 }
 
-export default new AuthService();
+const authServiceInstance = AuthService.getInstance();
+
+export default authServiceInstance;
