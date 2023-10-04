@@ -33,4 +33,4 @@ const contextMiddleware = ({ req }) => {
   }
 };
 
-module.exports = signToken, contextMiddleware;
+module.exports = { signToken, contextMiddleware };
