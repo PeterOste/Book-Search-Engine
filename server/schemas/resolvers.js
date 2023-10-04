@@ -19,7 +19,13 @@ const resolvers = {
         login: async (_, { email, password }) => {
             const user = await User.findOne({ email });
 
-            if (!user || !user.validatePassword(password)) {
+            if (!user) {
+                throw new AuthenticationError('Invalid credentials');
+            }
+        
+            const correctPassword = await user.validatePassword(password);
+        
+            if (!correctPassword) {
                 throw new AuthenticationError('Invalid credentials');
             }
 
@@ -32,6 +38,7 @@ const resolvers = {
             return { token, user };
         },
         saveBook: async (_, { input }, context) => {
+            console.log('Received input:', input)
             if (!context.user) {
                 throw new AuthenticationError('Not logged in');
             }

@@ -33,7 +33,7 @@ const LoginForm = () => {
         variables: { ...userFormData },
       });
 
-      const { token, user } = data.loginUser;
+      const { token, user } = data.login; // Destructure token from data.login object
       console.log(user);
       Auth.login(token);
     } catch (err) {
