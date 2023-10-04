@@ -78,14 +78,14 @@ const SearchBooks = () => {
         variables: { ...bookToSave },
       });
 
-      if (!response.ok) {
-        throw new Error('something went wrong!');
+      if (response.errors && response.errors.length > 0) {
+        throw new Error('GraphQL error occurred:', response.errors);
       }
 
       // if book successfully saves to user's account, save book id to state
       setSavedBookIds([...savedBookIds, bookToSave.bookId]);
     } catch (err) {
-      console.error(err);
+      console.error('Error occurred:', err);
     }
   };
 
