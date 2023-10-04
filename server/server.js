@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors'); // Import CORS
 const { ApolloServer } = require('apollo-server-express');
 const path = require('path');
 const { typeDefs, resolvers } = require('./schemas'); // Import GraphQL schema
@@ -13,6 +14,10 @@ const server = new ApolloServer({
   resolvers,
   context: contextMiddleware,
 });
+
+app.use(cors({
+  origin: 'http://localhost:3000',
+}));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
