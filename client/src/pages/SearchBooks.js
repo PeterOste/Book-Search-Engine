@@ -51,7 +51,6 @@ const SearchBooks = () => {
           title: book.volumeInfo.title,
           description: book.volumeInfo.description,
           image: book.volumeInfo.imageLinks?.thumbnail || '',
-          infoLink: book.volumeInfo.infoLink, // Include the infoLink property
       }));
 
       setSearchedBooks(bookData);
@@ -74,18 +73,14 @@ const SearchBooks = () => {
     }
 
     try {
-      const response = await saveBook({
+      await saveBook({
         variables: { ...bookToSave },
       });
-
-      if (response.errors && response.errors.length > 0) {
-        throw new Error('GraphQL error occurred:', response.errors);
-      }
 
       // if book successfully saves to user's account, save book id to state
       setSavedBookIds([...savedBookIds, bookToSave.bookId]);
     } catch (err) {
-      console.error('Error occurred:', err);
+      console.error(err);
     }
   };
 
